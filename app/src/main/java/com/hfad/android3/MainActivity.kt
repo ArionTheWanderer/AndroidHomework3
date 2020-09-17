@@ -27,7 +27,7 @@ class MainActivity : AppCompatActivity() {
         btn_seven.setOnClickListener(OnNumberClickListener)
         btn_eight.setOnClickListener(OnNumberClickListener)
         btn_nine.setOnClickListener(OnNumberClickListener)
-
+        print(45)
         btn_plus.setOnClickListener(OnActionClickListener)
         btn_minus.setOnClickListener(OnActionClickListener)
         btn_multiplication.setOnClickListener(OnActionClickListener)
