@@ -2,7 +2,6 @@ package com.hfad.android3
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.View
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_NO
 import androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_YES
@@ -10,10 +9,13 @@ import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
 
+    private lateinit var themeManager: ThemeManager
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        themeManager = ThemeManager(this.applicationContext)
 
         subscribeObservers()
 
@@ -34,11 +36,24 @@ class MainActivity : AppCompatActivity() {
         btn_division.setOnClickListener(OnActionClickListener)
         btn_c.setOnClickListener(OnActionClickListener)
 
+        if (themeManager.fetchTheme() != null) {
+            when(themeManager.fetchTheme()) {
+                Constants.NIGHT_MODE_YES -> {
+                    AppCompatDelegate.setDefaultNightMode(MODE_NIGHT_YES)
+                }
+                Constants.NIGHT_MODE_NO -> {
+                    AppCompatDelegate.setDefaultNightMode(MODE_NIGHT_NO)
+                }
+            }
+        }
+
         btn_change_theme.setOnClickListener {
             if (AppCompatDelegate.getDefaultNightMode() == MODE_NIGHT_YES){
                 AppCompatDelegate.setDefaultNightMode(MODE_NIGHT_NO)
+                themeManager.saveTheme(Constants.NIGHT_MODE_NO)
             } else {
                 AppCompatDelegate.setDefaultNightMode(MODE_NIGHT_YES)
+                themeManager.saveTheme(Constants.NIGHT_MODE_YES)
             }
         }
     }
